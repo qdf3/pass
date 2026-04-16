@@ -254,14 +254,16 @@
     display: flex; align-items: center; justify-content: center;
     font-size: 1.3rem;
     font-weight: 900;
-    color: #000;
+    color: var(--text);
+    background: var(--surface);
+    border: 1.5px solid var(--border);
     position: relative;
     transition: transform .2s;
   }
   .digit-badge:hover { transform: scale(1.1); }
-  .badge-b { background: var(--correct); box-shadow: 0 0 10px rgba(0,230,118,.4); }
-  .badge-m { background: var(--wrong-place); box-shadow: 0 0 10px rgba(255,171,64,.4); }
-  .badge-x { background: var(--incorrect); color: #ccc; }
+  .badge-b { background: var(--surface); border-color: var(--border); }
+  .badge-m { background: var(--surface); border-color: var(--border); }
+  .badge-x { background: var(--surface); border-color: var(--border); }
 
   .attempt-clue {
     display: flex;
@@ -411,9 +413,8 @@
   </div>
 
   <div class="legend">
-    <div class="legend-item"><div class="dot dot-b">B</div>صحيح في مكانه</div>
-    <div class="legend-item"><div class="dot dot-m">M</div>صحيح في مكان خاطئ</div>
-    <div class="legend-item"><div class="dot dot-x">✕</div>غير موجود</div>
+    <div class="legend-item"><div class="dot dot-b">B</div>رقم صحيح في مكانه</div>
+    <div class="legend-item"><div class="dot dot-m">M</div>رقم صحيح في مكان خاطئ</div>
   </div>
 
   <div class="history-section">
@@ -534,14 +535,8 @@ function addToHistory(guess, b, m, num) {
   const placeholder = list.querySelector('.empty-history');
   if (placeholder) placeholder.remove();
 
-  const colorOf = (digit, idx) => {
-    if (digit === secret[idx]) return 'badge-b';
-    if (secret.includes(digit)) return 'badge-m';
-    return 'badge-x';
-  };
-
-  const badges = guess.map((d, i) =>
-    `<div class="digit-badge ${colorOf(d, i)}">${d}</div>`
+  const badges = guess.map((d) =>
+    `<div class="digit-badge">${d}</div>`
   ).join('');
 
   const clues = `
